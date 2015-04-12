@@ -372,6 +372,35 @@ bool idfs(node starting_node, node goal_node, deque<node> &fringe){
 	}
 	return false;
 }
+
+bool astar(node starting_node, node goal_node, deque<node> &fringe) {
+    set<string> myset;
+    node current_node;
+
+    auto open_set = myset.insert(starting_node.state_key);
+    //auto closed_set;
+    //came_from map;
+    fringe.push_front(starting_node);
+
+    //int g_value[starting_node] = 1;
+    //int f_score[starting_node] = g_score[starting_node] + heuristic_estimate(starting_node, goal_node);
+
+    while (!fringe.empty()) {
+        current_node = fringe.front(); //set current_node to node with lowest f_score
+        if (nodePassed(current_node, goal_node))
+            return true; //create a reconstruction function to store history of previously visited nodes
+        fringe.pop_front();
+        print_node(current_node);
+
+    }
+
+    return false;
+}
+
+int heuristic_estimate(node starting_node, node goal_node) {
+    return ((2*starting_node.state.left_missionaries) + (2*starting_node.state.left_cannibals) - 1);
+}
+
 int main(int argc, _TCHAR* argv[])
 {
 	deque<node> some_queue;
